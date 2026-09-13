@@ -360,9 +360,6 @@
     .t-item{ grid-template-columns: 72px 1fr; }
     .t-photo{ width: 72px; height: 72px; font-size: 20px; }
   }
-  body.scroll-locked{
-    overflow:hidden;
-  height:100vh;}
 </style>
 </head>
 <body>
@@ -374,8 +371,7 @@
     <div class="kicker" id="hero-kicker">a small site, for a big day</div>
     <h1 id="hero-title">Happy Birthday,<br><em id="hero-name">Nassuna!!!!</em></h1>
     <p class="sub" id="hero-sub">You got your own website this year. Scroll down — there's just a few memories in here, a few messages, and a quiz you will absolutely not get 100% on.</p>
-    <div class="countdown" id="countdown"></div>
-    <div class="scroll-cue"id="scroll-cue"><spanid="scroll-cue-text">unlocks when the countdown hits zero</span><span class="arrow"></span><div>
+    <div class="countdown" id="countdown"></div><div class="scroll-cue"><span>keep going</span><span class="arrow"></span></div>
   </div>
 </section>
 
@@ -497,19 +493,7 @@ function renderHero(){
 function renderCountdown(){
   const target = new Date(CONFIG.birthdayDateTime).getTime();
   const el = document.getElementById('countdown');
-  const cueText = document.getElementById('scroll-cue-text');
-
-  if(isNaN(target)){ el.style.display = 'none'; return; } // no valid date = never lock
-
-  if(target > Date.now()){
-    document.body.classList.add('scroll-locked');
-  }
-
-  function unlock(){
-    document.body.classList.remove('scroll-locked');
-    if(cueText){ cueText.textContent = "it's time — keep scrolling"; }
-    document.getElementById('timeline-section').scrollIntoView({ behavior: 'smooth' });
-  }
+  if(isNaN(target)){ el.style.display = 'none'; return; }
 
   function tick(){
     const now = Date.now();
@@ -517,7 +501,6 @@ function renderCountdown(){
     if(diff <= 0){
       el.innerHTML = '<div class="unit"><span class="num">🎉</span><span class="lbl">today!</span></div>';
       clearInterval(timer);
-      unlock();
       return;
     }
     const d = Math.floor(diff / 86400000);
