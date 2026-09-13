@@ -495,6 +495,7 @@ function renderCountdown(){
   const el = document.getElementById('countdown');
   if(isNaN(target)){ el.style.display = 'none'; return; }
 
+  let timer;
   function tick(){
     const now = Date.now();
     const diff = target - now;
@@ -512,7 +513,7 @@ function renderCountdown(){
     ].map(([lbl, val]) => `<div class="unit"><span class="num">${String(val).padStart(2,'0')}</span><span class="lbl">${lbl}</span></div>`).join('');
   }
   tick();
-  const timer = setInterval(tick, 1000);
+  timer = setInterval(tick, 1000);
 }
 
 function renderTimeline(){
